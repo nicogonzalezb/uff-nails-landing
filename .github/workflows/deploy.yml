@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  trigger-easypanel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger EasyPanel deploy
+        env:
+          DEPLOY_HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "${DEPLOY_HOOK_URL}" ]; then
+            echo "::error::Falta el secret DEPLOY_HOOK_URL en Settings → Secrets and variables → Actions"
+            exit 1
+          fi
+          curl -fsS --connect-timeout 15 --max-time 120 "$DEPLOY_HOOK_URL"
