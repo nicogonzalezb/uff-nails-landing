@@ -1,0 +1,112 @@
+---
+const categorias = [
+  {
+    id: "manos",
+    label: "💅 Manos",
+    servicios: [
+      { nombre: "Manicure Tradicional", precio: "$25,000" },
+      { nombre: "Manicure Semipermanente", precio: "$60,000", popular: true },
+      { nombre: "Manicure Rusa Tradicional", precio: "$35,000" },
+      { nombre: "Manicure Rusa Semipermanente", precio: "$70,000", popular: true },
+      { nombre: "Manicure Rusa Extensión Semipermanente", precio: "$170,000" },
+      { nombre: "Manicure Acrílico Semipermanente", precio: "$160,000" },
+      { nombre: "Manicure Baby Boomer", precio: "$170,000" },
+      { nombre: "Powder Polish Dip", precio: "$80,000" },
+      { nombre: "Manicure Rubber Semipermanente", precio: "$70,000" },
+      { nombre: "Polygel Semipermanente", precio: "$90,000" },
+      { nombre: "Polygel Tradicional", precio: "$75,000" },
+      { nombre: "Press On + Manicure Semipermanente", precio: "$120,000" },
+      { nombre: "Press On + Manicure Tradicional", precio: "$90,000" },
+      { nombre: "Manicure Niñ@ (hasta 15 años)", precio: "$19,000" },
+      { nombre: "Manicure Ruso Niñ@ (hasta 15 años)", precio: "$29,000" },
+      { nombre: "Manos Spa Completo", precio: "$40,000" },
+      { nombre: "Manos Spa Medio", precio: "$30,000" },
+      { nombre: "Cream Mousse", precio: "$45,000" },
+    ],
+  },
+  {
+    id: "pies",
+    label: "🦶 Pies",
+    servicios: [
+      { nombre: "Pedicure Tradicional", precio: "$30,000" },
+      { nombre: "Pedicure Semipermanente", precio: "$65,000", popular: true },
+      { nombre: "Pedicure Rusa Tradicional", precio: "$40,000" },
+      { nombre: "Pedicure Rusa Semipermanente", precio: "$75,000", popular: true },
+      { nombre: "Pedicure Rubber Semipermanente", precio: "$75,000" },
+      { nombre: "Pedicure Niñ@ (hasta 15 años)", precio: "$21,000" },
+      { nombre: "Pedicure Brillo Semipermanente Hombre", precio: "$45,000" },
+      { nombre: "Pies Spa Completo", precio: "$45,000" },
+      { nombre: "Pies Spa Medio", precio: "$35,000" },
+    ],
+  },
+  {
+    id: "extras",
+    label: "✨ Extras",
+    servicios: [
+      { nombre: "Removedor Semipermanente", precio: "$12,000" },
+      { nombre: "Retiro de Acrílico Total", precio: "$11,000" },
+      { nombre: "Retiro de Polygel Total", precio: "$11,000" },
+      { nombre: "Retiro de Press On Total", precio: "$11,000" },
+      { nombre: "Reparación Uña", precio: "$9,000" },
+      { nombre: "Cobertura Polygel Uña", precio: "$9,000" },
+      { nombre: "Veloterapia", precio: "$7,000" },
+      { nombre: "Guantes Hidratantes Aquashutle", precio: "$20,000" },
+      { nombre: "Botas Hidratantes Aquashutle", precio: "$25,000" },
+      { nombre: "Efectos Adicionales", precio: "$1,500" },
+      { nombre: "Domicilio Chía", precio: "$5,000" },
+    ],
+  },
+];
+---
+
+<section id="servicios" class="py-20 bg-pink-soft">
+  <div
+    class="max-w-5xl mx-auto px-6"
+    x-data="{ tab: 'manos' }"
+  >
+    <div class="text-center mb-10">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Servicios y precios</h2>
+      <p class="text-gray-500 text-lg">Todo a domicilio, con resultados de salón.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex justify-center gap-3 mb-10 flex-wrap">
+      {categorias.map((c) => (
+        <button
+          x-on:click={`tab = '${c.id}'`}
+          x-bind:class={`tab === '${c.id}' ? 'bg-pink-primary text-white shadow-md' : 'bg-white text-gray-600 hover:bg-pink-light'`}
+          class="px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-200 border border-pink-light"
+        >
+          {c.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Servicios por categoría -->
+    {categorias.map((c) => (
+      <div x-show={`tab === '${c.id}'`} x-cloak x-transition>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {c.servicios.map((s) => (
+            <div class={`flex items-center justify-between bg-white rounded-xl px-5 py-4 border ${s.popular ? 'border-pink-primary' : 'border-pink-light'} gap-4`}>
+              <div class="flex items-center gap-3 min-w-0">
+                {s.popular && <span class="shrink-0 w-2 h-2 rounded-full bg-pink-primary"></span>}
+                {!s.popular && <span class="shrink-0 w-2 h-2 rounded-full bg-pink-light"></span>}
+                <span class="text-gray-800 text-sm font-medium truncate">{s.nombre}</span>
+              </div>
+              <div class="flex items-center gap-3 shrink-0">
+                <span class="text-pink-primary font-bold text-sm whitespace-nowrap">{s.precio}</span>
+                <a
+                  href="#manicuristas"
+                  class="bg-pink-soft text-pink-primary font-semibold text-xs px-3 py-1.5 rounded-full hover:bg-pink-light transition whitespace-nowrap"
+                >
+                  Reservar
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="text-center text-gray-400 text-xs mt-6">● Más popular · Los precios incluyen domicilio en Bogotá.</p>
+      </div>
+    ))}
+  </div>
+</section>

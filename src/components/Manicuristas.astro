@@ -1,0 +1,283 @@
+---
+const manicuristas = [
+  {
+    id: "aleja",
+    nombre: "Aleja Sarmiento",
+    especialidad: "Semipermanente & Gel",
+    experiencia: "",
+    disponible: true,
+    foto: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=300&q=80",
+  },
+  {
+    id: "lissette",
+    nombre: "Lissette Cardinals",
+    especialidad: "Nail Art & Decoración",
+    experiencia: "",
+    disponible: true,
+    foto: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&q=80",
+  },
+  {
+    id: "joanna",
+    nombre: "Johanna Mejía",
+    especialidad: "Manicure & Pedicure",
+    experiencia: "",
+    disponible: true,
+    foto: "https://images.unsplash.com/photo-1554151228-14d9def656e4?w=300&q=80",
+  },
+  {
+    id: "jessica",
+    nombre: "Jessica Sánchez",
+    especialidad: "Clásica & Francesa",
+    experiencia: "",
+    disponible: true,
+    foto: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&q=80",
+  },
+];
+
+const categorias = [
+  {
+    id: "manos",
+    label: "💅 Manos",
+    servicios: [
+      "Manicure Tradicional — $25,000",
+      "Manicure Semipermanente — $60,000",
+      "Manicure Rusa Tradicional — $35,000",
+      "Manicure Rusa Semipermanente — $70,000",
+      "Manicure Rusa Extensión Semipermanente — $170,000",
+      "Manicure Acrílico Semipermanente — $160,000",
+      "Manicure Baby Boomer — $170,000",
+      "Powder Polish Dip — $80,000",
+      "Manicure Rubber Semipermanente — $70,000",
+      "Polygel Semipermanente — $90,000",
+      "Polygel Tradicional — $75,000",
+      "Press On + Manicure Semipermanente — $120,000",
+      "Manicure Niñ@ (hasta 15 años) — $19,000",
+      "Manos Spa Completo — $40,000",
+      "Cream Mousse — $45,000",
+    ],
+  },
+  {
+    id: "pies",
+    label: "🦶 Pies",
+    servicios: [
+      "Pedicure Tradicional — $30,000",
+      "Pedicure Semipermanente — $65,000",
+      "Pedicure Rusa Tradicional — $40,000",
+      "Pedicure Rusa Semipermanente — $75,000",
+      "Pedicure Rubber Semipermanente — $75,000",
+      "Pedicure Niñ@ (hasta 15 años) — $21,000",
+      "Pies Spa Completo — $45,000",
+    ],
+  },
+  {
+    id: "extras",
+    label: "✨ Extras",
+    servicios: [
+      "Removedor Semipermanente — $12,000",
+      "Retiro de Acrílico/Polygel — $11,000",
+      "Reparación Uña — $9,000",
+      "Veloterapia — $7,000",
+      "Guantes Hidratantes Aquashutle — $20,000",
+      "Botas Hidratantes Aquashutle — $25,000",
+    ],
+  },
+];
+
+const WHATSAPP = "573227090618"; // Andre
+---
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.data('reserva', () => ({
+      manicurista: null,
+      categoria: null,
+      servicio: null,
+      get paso() {
+        if (!this.manicurista) return 1;
+        if (!this.servicio) return 2;
+        return 3;
+      },
+      get whatsappUrl() {
+        if (!this.manicurista || !this.servicio) return '#manicuristas';
+        const nombre = this.servicio.split(' — ')[0] || this.servicio;
+        const msg = 'Hola Andre! Quiero reservar un turno.\nManicurista: ' + this.manicurista + '\nServicio: ' + nombre + '\n' + String.fromCharCode(191) + 'Cu' + String.fromCharCode(225) + 'ndo tienen disponibilidad?';
+        return 'https://wa.me/573227090618?text=' + encodeURIComponent(msg);
+      }
+    }));
+  });
+</script>
+
+<section id="manicuristas" class="py-20 bg-white">
+  <div class="max-w-6xl mx-auto px-6" x-data="reserva">
+    <!-- Indicador de pasos -->
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Reserva tu turno</h2>
+      <div class="flex items-center justify-center gap-3">
+        <div class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors"
+            :class="paso >= 1 ? 'bg-pink-primary text-white' : 'bg-gray-100 text-gray-400'"
+          >1</div>
+          <span class="text-sm font-medium" :class="paso >= 1 ? 'text-pink-primary' : 'text-gray-400'">Manicurista</span>
+        </div>
+        <div class="w-8 h-px bg-gray-200"></div>
+        <div class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors"
+            :class="paso >= 2 ? 'bg-pink-primary text-white' : 'bg-gray-100 text-gray-400'"
+          >2</div>
+          <span class="text-sm font-medium" :class="paso >= 2 ? 'text-pink-primary' : 'text-gray-400'">Servicio</span>
+        </div>
+        <div class="w-8 h-px bg-gray-200"></div>
+        <div class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors"
+            :class="paso >= 3 ? 'bg-pink-primary text-white' : 'bg-gray-100 text-gray-400'"
+          >3</div>
+          <span class="text-sm font-medium" :class="paso >= 3 ? 'text-pink-primary' : 'text-gray-400'">Reservar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paso 1: Selección de manicurista -->
+    <div x-show="paso === 1" x-transition>
+      <p class="text-center text-gray-500 mb-8">Selecciona a tu especialista preferida.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {manicuristas.map((m) => (
+          <button
+            x-on:click={`manicurista = '${m.nombre}'`}
+            class="relative text-left bg-white rounded-2xl p-6 border border-pink-light hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer"
+          >
+            <img
+              src={m.foto}
+              alt={m.nombre}
+              class="w-20 h-20 rounded-full object-cover mb-4 border-2 border-pink-light"
+            />
+            <h3 class="font-bold text-gray-900 text-lg">{m.nombre}</h3>
+            <p class="text-pink-primary text-sm font-medium mb-1">{m.especialidad}</p>
+            <p class="text-gray-400 text-xs">{m.experiencia}</p>
+            {m.disponible && (
+              <span class="mt-3 inline-block bg-green-50 text-green-600 text-xs font-semibold px-2 py-1 rounded-full">
+                ✅ Disponible
+              </span>
+            )}
+          </button>
+        ))}
+
+        <!-- Opción sin preferencia -->
+        <button
+          x-on:click="manicurista = 'Sin preferencia (Andre me recomienda)'"
+          class="text-left bg-gradient-to-br from-pink-soft to-white rounded-2xl p-6 border-2 border-dashed border-pink-light hover:border-pink-primary hover:shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer col-span-1 sm:col-span-2 md:col-span-1"
+        >
+          <div class="w-20 h-20 rounded-full bg-pink-soft border-2 border-dashed border-pink-light flex items-center justify-center text-3xl mb-4">
+            🎲
+          </div>
+          <h3 class="font-bold text-gray-900 text-lg">No tengo preferencia</h3>
+          <p class="text-gray-500 text-sm mt-1">Andre me recomienda la disponible ideal para mi servicio.</p>
+        </button>
+      </div>
+    </div>
+
+    <!-- Paso 2: Selección de servicio -->
+    <div x-show="paso === 2" x-cloak x-transition>
+      <div class="flex items-center justify-center gap-3 mb-8">
+        <p class="text-gray-600">
+          Manicurista: <strong x-text="manicurista" class="text-pink-primary"></strong>
+        </p>
+        <button
+          x-on:click="manicurista = null; categoria = null"
+          class="text-xs text-gray-400 hover:text-gray-600 underline transition"
+        >cambiar</button>
+      </div>
+
+      <!-- Sub-tabs de categoría -->
+      <div class="flex justify-center gap-3 mb-8 flex-wrap">
+        {categorias.map((c) => (
+          <button
+            x-on:click={`categoria = categoria === '${c.id}' ? null : '${c.id}'`}
+            x-bind:class={`categoria === '${c.id}' ? 'bg-pink-primary text-white shadow-md' : 'bg-white text-gray-600 hover:bg-pink-light'`}
+            class="px-5 py-2 rounded-full font-semibold text-sm transition-all duration-200 border border-pink-light"
+          >
+            {c.label}
+          </button>
+        ))}
+      </div>
+
+      <p x-show="!categoria" class="text-center text-gray-400 text-sm">👆 Elige una categoría para ver los servicios</p>
+
+      <!-- Lista de servicios por categoría seleccionada -->
+      {categorias.map((c) => (
+        <div x-show={`categoria === '${c.id}'`} x-cloak x-transition x-data="{ expandido: false }">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl mx-auto">
+            {c.servicios.map((s, i) => (
+              <button
+                x-on:click={`servicio = '${s}'`}
+                x-show={i < 5 ? "true" : "expandido"}
+                class="flex items-center justify-between bg-white rounded-xl px-5 py-3.5 border border-pink-light hover:ring-2 hover:ring-pink-primary hover:shadow-md transition-all duration-150 text-left gap-4"
+              >
+                <span class="text-gray-800 text-sm font-medium">{s.split(" — ")[0]}</span>
+                <span class="text-pink-primary font-bold text-sm whitespace-nowrap shrink-0">{s.split(" — ")[1]}</span>
+              </button>
+            ))}
+          </div>
+          {c.servicios.length > 5 && (
+            <div class="text-center mt-4">
+              <button
+                x-show="!expandido"
+                x-on:click="expandido = true"
+                class="text-pink-primary font-semibold text-sm hover:underline transition"
+              >
+                Ver más servicios ({c.servicios.length - 5} más) ↓
+              </button>
+              <button
+                x-show="expandido"
+                x-cloak
+                x-on:click="expandido = false"
+                class="text-gray-400 font-semibold text-sm hover:underline transition"
+              >
+                Ver menos ↑
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Paso 3: Confirmar y enviar WhatsApp -->
+    <div x-show="paso === 3" x-cloak x-transition>
+      <div class="max-w-md mx-auto text-center">
+        <div class="bg-pink-soft rounded-2xl p-8 mb-8 border border-pink-light">
+          <p class="text-gray-500 text-sm mb-4 font-medium uppercase tracking-wide">Resumen de tu reserva</p>
+          <div class="space-y-3 text-left">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-500">Manicurista</span>
+              <strong x-text="manicurista" class="text-gray-900"></strong>
+            </div>
+            <div class="h-px bg-pink-light"></div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-500">Servicio</span>
+              <strong x-text="servicio" class="text-gray-900"></strong>
+            </div>
+          </div>
+          <div class="mt-4 flex justify-end">
+            <button
+              x-on:click="servicio = null"
+              class="text-xs text-gray-400 hover:text-gray-600 underline transition"
+            >cambiar servicio</button>
+          </div>
+        </div>
+
+        <a
+          x-bind:href="whatsappUrl"
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-3 bg-green-500 text-white font-bold px-10 py-4 rounded-full text-lg hover:bg-green-600 transition shadow-lg w-full justify-center"
+        >
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Enviar reserva a Andre
+        </a>
+        <p class="text-gray-400 text-xs mt-3">Se abrirá WhatsApp con el mensaje listo. Andre te confirma en minutos.</p>
+      </div>
+    </div>
+  </div>
+</section>

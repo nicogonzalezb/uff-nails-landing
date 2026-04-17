@@ -1,0 +1,56 @@
+---
+const testimonios = [
+  {
+    nombre: "Daniela F.",
+    inicial: "D",
+    texto: "Valentina es increíble. Llegó puntual, se instaló súper rápido y mis uñas quedaron perfectas. Definitivamente la vuelvo a llamar.",
+    servicio: "Semipermanente",
+    estrellas: 5,
+  },
+  {
+    nombre: "Catalina R.",
+    inicial: "C",
+    texto: "La comodidad de hacerme las uñas en la casa no tiene precio. Camila es muy detallista con el nail art, todo quedó exactamente como yo quería.",
+    servicio: "Nail Art + Gel",
+    estrellas: 5,
+  },
+  {
+    nombre: "Antonia M.",
+    inicial: "A",
+    texto: "Súper fácil reservar por WhatsApp, respondieron al tiro. El servicio fue impecable y los precios son más accesibles que el salón.",
+    servicio: "Manicure Clásica",
+    estrellas: 5,
+  },
+];
+---
+
+<section class="py-20 bg-gradient-to-b from-pink-soft to-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Lo que dicen nuestras clientas</h2>
+      <p class="text-gray-500 text-lg">+200 reservas completadas en Santiago.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {testimonios.map((t) => (
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-pink-light">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-primary to-purple-accent flex items-center justify-center text-white font-bold text-lg">
+              {t.inicial}
+            </div>
+            <div>
+              <p class="font-semibold text-gray-900">{t.nombre}</p>
+              <p class="text-pink-primary text-xs font-medium">{t.servicio}</p>
+            </div>
+          </div>
+          <div class="flex mb-3">
+            {Array.from({ length: t.estrellas }).map(() => (
+              <span class="text-yellow-400">★</span>
+            ))}
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">"{t.texto}"</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
